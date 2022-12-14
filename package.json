@@ -4,8 +4,9 @@
   "private": true,
   "homepage": "https://workfel.github.io/react-todo-elf/",
   "dependencies": {
-    "@ngneat/elf": "^1.0.2",
-    "@ngneat/elf-entities": "^2.0.2",
+    "@ngneat/elf": "^2.3.0",
+    "@ngneat/elf-devtools": "^1.2.1",
+    "@ngneat/elf-entities": "^4.4.3",
     "@ngneat/use-observable": "^1.0.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",

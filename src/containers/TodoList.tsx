@@ -5,7 +5,7 @@ import { useObservable } from '@ngneat/use-observable';
 
 const TodoList = () => {
   const { repository } = useContext(TodoContext);
-  const [todos] = useObservable(repository.todos$);
+  const [todos] = useObservable(repository.visibleTodos$);
 
   const handleToggleCompleted = (id: string) => {
     repository.toggleCompleted(id);

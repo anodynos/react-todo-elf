@@ -2,12 +2,11 @@ import { createState, select, Store, withProps } from '@ngneat/elf';
 import {
   addEntities,
   deleteEntities,
-  selectAllApply,
+  selectAllEntitiesApply,
   updateEntities,
   withEntities,
-  selectEntity,
 } from '@ngneat/elf-entities';
-import { Observable, switchMap, take, tap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
 export interface VisibilityFilterProps {
   filter: 'active' | 'completed' | 'all';
@@ -20,7 +19,7 @@ export interface Todo {
 }
 
 export interface TodoRepository {
-  todos$: Observable<Todo[]>;
+  visibleTodos$: Observable<Todo[]>;
   
   addTodo(text: Todo['name']): void;
   
@@ -40,9 +39,11 @@ const {state, config} = createState(
 
 export class TodoRepositoryElf implements TodoRepository {
   private todosStore = new Store({name: 'todos', state, config});
+  
   filter$ = this.todosStore.pipe(select(({filter}) => filter));
-  todos$: Observable<Todo[]> = this.filter$.pipe(switchMap((filter) => {
-    return this.todosStore.pipe(selectAllApply({
+  
+  visibleTodos$: Observable<Todo[]> = this.filter$.pipe(switchMap((filter) => {
+    return this.todosStore.pipe(selectAllEntitiesApply({
       filterEntity({completed}): boolean {
         if (filter === 'all') return true;
         return filter === 'completed' ? completed : !completed;
@@ -57,13 +58,14 @@ export class TodoRepositoryElf implements TodoRepository {
       completed: false,
     }));
   }
+  
   toggleCompleted(id: string) {
-    this.todosStore.pipe(selectEntity(id), take(1))
-    .subscribe((todo =>
-        this.todosStore.update(updateEntities(id, {
-          completed: !todo?.completed,
-        }))
-    ))
+    this.todosStore.update(
+      updateEntities(id, (todo) => ({
+        ...todo,
+        completed: !todo.completed,
+      }))
+    );
   }
   
   removeTodo(id: string): void {

@@ -5,6 +5,9 @@ import reportWebVitals from './reportWebVitals';
 import App from './App';
 import TodoContext from './infrastructure/todo.context.provider';
 import { TodoRepositoryElf } from './repository/todo.repository';
+import { devTools } from '@ngneat/elf-devtools';
+
+devTools();
 
 ReactDOM.render(
   <React.StrictMode>
