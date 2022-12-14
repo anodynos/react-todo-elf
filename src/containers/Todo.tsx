@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import TodoContext from '../infrastructure/todo.context.provider';
 import { VisibilityFilterProps } from '../repository/todo.repository';
 
-const Todo = () => {
+const TodoPage = () => {
   const { repository } = useContext(TodoContext);
 
   const handleVisibility = ((filter: VisibilityFilterProps['filter']) => {
@@ -16,6 +16,7 @@ const Todo = () => {
   });
 
   return <div className="container mx-auto p-8 flex flex-col grow h-full">
+    <h1>Todos Page</h1>
     <div className="flex flex-col grow">
       <h1 className="text-4xl font-semibold mt-8 mb-8">
         All tasks
@@ -32,4 +33,4 @@ const Todo = () => {
   </div>;
 };
 
-export default Todo;
+export default TodoPage;

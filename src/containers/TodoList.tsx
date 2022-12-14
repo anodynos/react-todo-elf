@@ -7,11 +7,8 @@ const TodoList = () => {
   const { repository } = useContext(TodoContext);
   const [todos] = useObservable(repository.todos$);
 
-  const handlerComplete = (id: string) => {
-    repository.markAsComplete(id);
-  };
-  const handleActive = (id: string) => {
-    repository.markAsActive(id);
+  const handleToggleCompleted = (id: string) => {
+    repository.toggleCompleted(id);
   };
   const handleRemove = (id: string) => {
     repository.removeTodo(id);
@@ -21,8 +18,10 @@ const TodoList = () => {
     <div>
       <h2 className="font-semibold uppercase text-xl tracking-wide text-slate-400 mt-8 mb-4">Todo List</h2>
       {todos.map((todo) => (
-        <TodoItem todo={todo} onCompleted={handlerComplete} onRemove={handleRemove}
-                  onActive={handleActive}
+        <TodoItem todo={todo}
+                  onToggleCompleted={handleToggleCompleted}
+                  onRemove={handleRemove}
+                  // onActive={handleActive}
                   key={todo.id}/>
       ))}
     </div>
